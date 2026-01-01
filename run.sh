@@ -1,12 +1,15 @@
 #!/bin/bash
 
-# install expect if not present
+# check expect
 if ! command -v expect >/dev/null 2>&1; then
-    apt update -y && apt install -y expect
+    echo "❌ expect not installed"
+    echo "➡ This environment (Google IDX) does not support apt"
+    echo "➡ Run this on Ubuntu/Debian VPS"
+    exit 1
 fi
 
 cat << 'EOF' > /tmp/auto.exp
-#!/usr/bin/expect -f
+#!/usr/bin/env expect
 set timeout -1
 
 while {1} {
@@ -41,4 +44,5 @@ while {1} {
 EOF
 
 chmod +x /tmp/auto.exp
-/tmp/auto.exp
+expect /tmp/auto.exp
+
